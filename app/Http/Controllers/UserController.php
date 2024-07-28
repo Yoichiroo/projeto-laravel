@@ -32,7 +32,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $created = $this->user->create([
+            'firstName' => $request->input('firstName'),
+            'lastName' => $request->input('lastName'),
+            'email' => $request->input('email'),
+            'password' => password_hash($request->input('password'), PASSWORD_DEFAULT)
+        ]);
+        if($created) {
+            return redirect()->back()->with('message', 'Criado com sucesso!');
+        } else {
+            return redirect()->back()->with('message', 'Erro ao criar!');
+        }
     }
 
     /**
