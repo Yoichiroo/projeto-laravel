@@ -48,9 +48,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(user $user)
     {
-        //
+        return view("user_show", ['user' => $user]);
     }
 
     /**
@@ -79,6 +79,12 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        $deleted = $this->user->where('id', $id)->delete();
+        if ($deleted) {
+            return redirect()->route('users.index')->with('message', 'Usuário deletado com sucesso!');
+        }
+
+        return redirect()->route('users.index')->with('message', 'Erro ao deletar usuário!');
+}
+
 }
